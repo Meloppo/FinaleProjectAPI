@@ -26,12 +26,6 @@ namespace FinaleProject.Data
             _context.Remove(entity);
         }
 
-        public Brands GetBrands(int id)
-        {
-            var brand = _context.Brands.SingleOrDefault(b => b.Id == id);
-            return brand;
-        }
-
         public CarModel GetCarModelsById(int carModelId)
         {
             var carmodel = _context.CarModels.Include(c => c.Photos)
