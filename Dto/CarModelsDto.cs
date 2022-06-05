@@ -10,7 +10,7 @@ namespace FinaleProject.Dto
         public int Id { get; set; }
         public string Name { get; set; }
         public string BrandName { get; set; }
-        public string PhotoUrl { get; set; }
+        public string Photos { get; set; }
         public string Description { get; set; } 
     }
 }

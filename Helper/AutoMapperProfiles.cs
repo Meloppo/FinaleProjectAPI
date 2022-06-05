@@ -12,11 +12,11 @@ namespace FinaleProject.Helper
     {
         public AutoMapperProfiles()
         {
-            CreateMap<CarModel, CarModelsDto>().ForMember(t => t.PhotoUrl, opt => { opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.IsMain).Url); });
+            CreateMap<CarModel, CarModelsDto>().ForMember(t => t.Photos, opt => { opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.IsMain).Url); });
 
 
             CreateMap<CarModel, CarModelDetailDto>();
-            CreateMap<Photo, PhotoAddDto>();
+            CreateMap<PhotoAddDto, Photo>();
             CreateMap<PhotoFromCloud, Photo>();
             CreateMap<Photo, PhotoFromCloud>();
         }

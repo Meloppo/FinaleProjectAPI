@@ -36,7 +36,7 @@ namespace FinaleProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddPhotoToCar(int carId,[FromBody] PhotoAddDto photoAddDto)
+        public ActionResult AddPhotoToCar(int carId,[FromForm] PhotoAddDto photoAddDto)
         {
             var car = _entityRepository.GetCarModelsById(carId);
 
@@ -44,10 +44,9 @@ namespace FinaleProject.Controllers
             {
                 return BadRequest("kotuhata");
             }
-
             var file = photoAddDto.FormFile;
             var result = new ImageUploadResult();
-            if (file.Length>0)
+            if (file.Length > 0)
             {
                 using (var stream = file.OpenReadStream())
                 {
@@ -59,25 +58,20 @@ namespace FinaleProject.Controllers
                     result = _cloud.Upload(uploadParams);
                 }
             }
-
             photoAddDto.Url = result.Url.ToString();
                 photoAddDto.PublicId = result.PublicId;
-
                 var photo = _mapper.Map<Photo>(photoAddDto);
                 photo.CarModel = car;
-
                 if (!car.Photos.Any(p=>p.IsMain))
                 {
                     photo.IsMain = true;
                 }
                 car.Photos.Add(photo);
-
                 if (_entityRepository.SaveAll())
                 {
                     var photoResult = _mapper.Map<PhotoFromCloud>(photo);
                     return CreatedAtRoute("GetPhoto", new { id = photo.Id }, photoResult);
                 }
-
                 return BadRequest("w");
         }
 
